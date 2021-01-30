@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tim Cordero's Room Reservations</title>
+    <style>
+        /*
+            Tim Cordero, Lab 3
+        */
+
+        body {
+            background-color: gold;
+        }
+
+        h1 {
+            color: navy;
+        }
+
+        .wrapper {
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: 150px 150px 150px;
+            background-color: gold;
+            color: gold;
+        }
+
+        .box {
+            background-color: navy;
+            color: gold;
+            border-radius: 5px;
+            padding: 20px;
+            font-size: 1em;
+            border: solid black 1px;
+        }
+
+        .a {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .b {
+            grid-column: 2 / span 2;
+            grid-row: 1;
+        }
+
+        .c {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .d {
+            grid-column: 2 / span 2;
+            grid-row: 2;
+        }
+
+        .e {
+            grid-column: 1;
+            grid-row: 3;
+        }
+
+        .f {
+            grid-column: 2;
+            grid-row: 3;
+        }
+
+        .g {
+            grid-column: 3;
+            grid-row: 3;
+        }
+
+        .h {
+            grid-column: 1 / span 3;
+            grid-row: 4;
+        }
+
+        .i {
+            grid-column: 1 / span 3;
+            grid-row: 5;
+        }
+
+        button {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 2em;
+            font-weight: bold;
+            padding-left: 2em;
+            padding-right: 2em;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Tim Cordero , Lab3-->
+
+    <h1>Tim Cordero's Room Reservations</h1>
+    <div class="wrapper">
+        <div class="box a">Name:</div>
+        <div class="box b"><input type="text" id="txtName" /></div>
+        <div class="box c">Room</div>
+        <div class="box d"><select id="selRoom">
+                <option value="H120">H120</option>
+                <option value="H153">H153</option>
+                <option value="H155">H155</option>
+            </select></div>
+        <div class="box e">Day & time</div>
+        <div class="box f">
+            Day <br />
+            <label><input id="Radio1" checked="checked" name="R1" type="radio" value="Mon" />Mon</label><br />
+            <label><input id="Radio2" name="R1" type="radio" value="Tues" />Tues</label><br />
+            <label><input id="Radio3" name="R1" type="radio" value="Wed" />Wed</label><br />
+            <label><input id="Radio4" name="R1" type="radio" value="Thurs" />Thurs</label><br />
+            <label><input id="Radio5" name="R1" type="radio" value="Fri" />Fri</label><br />
+        </div>
+        <div class="box g">
+            Time<br />
+            <label><input id="Radio6" checked="checked" name="R2" type="radio" value="6" />6</label><br />
+            <label><input id="Radio7" name="R2" type="radio" value="7" />7</label><br />
+            <label><input id="Radio8" name="R2" type="radio" value="8" />8</label><br />
+            <label><input id="Radio9" name="R2" type="radio" value="9" />9</label><br />
+            <label><input id="Radio10" name="R2" type="radio" value="10" />10</label><br />
+            <label><input id="Radio11" name="R2" type="radio" value="11" />11</label><br />
+        </div>
+        <div class="box h">
+            <button id="btnBook" onclick="return handleButton()">Make Reservation</button>
+        </div>
+        <div class="box i">
+            Reservations: <br />
+            <textarea id="reserved" rows=10 cols=50 readonly></textarea>
+        </div>
+    </div>
+
+    <script>
+        var reservations = new Array();
+
+        function handleButton() {
+            //Tim Cordero, Lab3
+
+            // get name and validate
+            var name = document.getElementById("txtName").value;
+            if (name == null || name == "") {
+                alert("Please enter a name");
+                return;
+            }
+
+            // find room
+
+            var room = document.getElementById("selRoom").value;
+
+            //find day
+            //declare variable, loop through radio buttons and get value of checked radio input
+            let day;
+            for (let i = 0; i < document.getElementsByName("R1").length; i++) {
+                if (document.getElementsByName("R1")[i].checked) {
+                    day = document.getElementsByName("R1")[i].value;
+                    //dayLabel = document.getElementsByName("R1")[i].nextElementSibling.innerHTML;
+                    // https://www.w3schools.com/jsref/prop_element_nextelementsibling.asp
+                }
+            }
+
+            // find time
+            let time;
+            for (let i = 0; i < document.getElementsByName("R2").length; i++) {
+                if (document.getElementsByName("R2")[i].checked) {
+                    time = document.getElementsByName("R2")[i].value;
+                    //timeLabel = document.getElementsByName("R2")[i].nextElementSibling.innerHTML;
+                    // https://www.w3schools.com/jsref/prop_element_nextelementsibling.asp
+                }
+            }
+
+            // requested room to check
+            let requestedRes = room + "_" + day + "_" + time + "_";
+
+            // check for duplicates
+            if(reservations.indexOf(requestedRes)==-1){
+                alert("Room sucessfully booked!")
+                reservations.push(requestedRes);
+                document.getElementById("reserved").innerHTML += requestedRes + "_" + name + "\r\n" ;
+
+            }
+            else{
+                alert("Time is already reserved, please try a different time");
+                return;
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
